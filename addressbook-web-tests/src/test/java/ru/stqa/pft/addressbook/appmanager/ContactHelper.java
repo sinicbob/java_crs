@@ -46,4 +46,13 @@ public class ContactHelper extends HelperBase{
     type(By.name("phone2"),contactData.getHomeNumber2());
     type(By.name("notes"),contactData.getNotes());
   }
+
+  public void selectContact() {
+    click(By.name("selected[]"));
+  }
+
+  public void deleteSelectedContact() {
+    click(By.xpath("//div[@class=\"left\"][2]//input[@value=\"Delete\"]"));
+  }
+
 }
