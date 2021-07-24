@@ -3,8 +3,8 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.ContactModifitionData;
 
 public class ContactHelper extends HelperBase{
 
@@ -20,7 +20,7 @@ public class ContactHelper extends HelperBase{
     click(By.xpath("//div[@id='content']/form/input[21]"));
   }
 
-  public void fillContactForm(ContactData contactData) {
+  public void fillContactForm(ContactData contactData, boolean creation) {
     type(By.name("firstname"), contactData.getFirstName());
     type(By.name("middlename"), contactData.getMiddleName());
     type(By.name("lastname"), contactData.getLastName());
@@ -42,38 +42,16 @@ public class ContactHelper extends HelperBase{
     new Select(wd.findElement(By.name("aday"))).selectByVisibleText(contactData.getAday());
     new Select(wd.findElement(By.name("amonth"))).selectByVisibleText(contactData.getAmonth());
     type(By.name("ayear"),contactData.getAyear());
-    new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroupname());
+    if(creation){
+      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroupname());
+    }else {
+      Assert.assertFalse(isElementPresent(By.name("new_group")));
+    }
     type(By.name("address2"),contactData.getAddress2());
     type(By.name("phone2"),contactData.getHomeNumber2());
     type(By.name("notes"),contactData.getNotes());
   }
 
-  public void modificationContactForm(ContactModifitionData contactModificationData){
-    type(By.name("firstname"), contactModificationData.getFirstName());
-    type(By.name("middlename"), contactModificationData.getMiddleName());
-    type(By.name("lastname"), contactModificationData.getLastName());
-    type(By.name("nickname"), contactModificationData.getNickname());
-    type(By.name("title"),contactModificationData.getTitle());
-    type(By.name("company"),contactModificationData.getCompany());
-    type(By.name("address"),contactModificationData.getAddress());
-    type(By.name("home"),contactModificationData.getHomeNumber());
-    type(By.name("mobile"),contactModificationData.getMobileNumber());
-    type(By.name("work"),contactModificationData.getWorkNumber());
-    type(By.name("fax"),contactModificationData.getFax());
-    type(By.name("email"),contactModificationData.getEmail());
-    type(By.name("email2"),contactModificationData.getEmail2());
-    type(By.name("email3"),contactModificationData.getEmail3());
-    type(By.name("homepage"),contactModificationData.getHomepage());
-    new Select(wd.findElement(By.name("bday"))).selectByVisibleText(contactModificationData.getBday());
-    new Select(wd.findElement(By.name("bmonth"))).selectByVisibleText(contactModificationData.getBmonth());
-    type(By.name("byear"),contactModificationData.getByear());
-    new Select(wd.findElement(By.name("aday"))).selectByVisibleText(contactModificationData.getAday());
-    new Select(wd.findElement(By.name("amonth"))).selectByVisibleText(contactModificationData.getAmonth());
-    type(By.name("ayear"),contactModificationData.getAyear());
-    type(By.name("address2"),contactModificationData.getAddress2());
-    type(By.name("phone2"),contactModificationData.getHomeNumber2());
-    type(By.name("notes"),contactModificationData.getNotes());
-  }
 
   public void selectContact() {
     click(By.name("selected[]"));
