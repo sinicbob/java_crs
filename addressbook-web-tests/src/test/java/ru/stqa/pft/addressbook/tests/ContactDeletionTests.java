@@ -7,6 +7,7 @@ public class ContactDeletionTests extends TestBase {
 
   @Test
   public void testContactDeletion() throws Exception {
+    app.getNavigationHelper().gotoContactHomePage();
     app.contactHelper().selectContact();
     app.contactHelper().deleteSelectedContact();
     Alert alert = app.wd.switchTo().alert();
