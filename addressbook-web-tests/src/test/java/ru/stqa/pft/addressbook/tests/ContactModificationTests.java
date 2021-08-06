@@ -1,36 +1,33 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class ContactModificationTests extends TestBase{
 
-  @Test (enabled = false)
-   public void testContactModification(){
-    if(!app.contactHelper().isThereAContact()){
-      app.contactHelper().createContact(new ContactData("Daniil", "test", "Vladimirov", "sini", "newTitle", "newCompani", "newAddress", "domtelefon", "mobtelefon", "worktelefon", "fax", "email1", "email2", "email3", "sinicbob.github.io", "7", "September", "1990", "14", "June", "1990","test1", "newAddressx2", "homeAddress", "lol"),true);
-    }
-    List<ContactData> before = app.contactHelper().getContactList();
-    app.contactHelper().selectContact(before.size() - 1);
-    app.contactHelper().initModification(before.size() - 1);
-    ContactData contact = new ContactData(before.get(before.size() - 1).getId(),"Michael", "test", "Jackson", "jack", "newTitle", "newCompani", "newAddress", "domtelefon", "mobtelefon", "worktelefon", "fax", "email1", "email2", "email3", "sinicbob.github.io", "7", "September", "1990", "14", "June", "1990",null, "newAddressx2", "homeAddress", "lol");
-    app.contactHelper().fillContactForm(contact,false);
-    app.contactHelper().submitContactModification();
-    app.contactHelper().gotoHomePage();
-    List<ContactData> after = app.contactHelper().getContactList();
-    Assert.assertEquals(after.size(),before.size());
+  @BeforeMethod
+  public void preconditions(){
+   if(!app.contact().isThereAContact()){
+    app.contact().create(new ContactData().setFirstName("Daniil").setMiddleName("test").setLastName("Vladimirov").setNickname("sini").setTitle("test").setBday("13").setBmonth("March").setAday("14").setAmonth("March").setGroupname("test1"),true);
+   }
+  }
 
-    before.remove(before.size() - 1);
-    before.add(contact);
-    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-    before.sort(byId);
-    after.sort(byId);
-    Assert.assertEquals(before,after);
+  @Test
+   public void testContactModification(){
+    Contacts before = app.contact().all();
+    ContactData modifiedContact = before.iterator().next();
+    ContactData contact = new ContactData()
+            .setId(modifiedContact.getId()).setFirstName("Michael").setLastName("test").setMiddleName("Jackson").setNickname("sini").setTitle("test").setBday("13").setBmonth("March").setAday("14").setAmonth("March");
+    app.contact().modify(contact);
+    Contacts after = app.contact().all();
+    assertThat(after.size(),equalTo(before.size()));
+    assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
 
   }
 }

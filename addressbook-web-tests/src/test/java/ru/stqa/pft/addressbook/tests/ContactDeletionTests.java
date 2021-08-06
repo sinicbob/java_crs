@@ -1,30 +1,33 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.openqa.selenium.Alert;
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactDeletionTests extends TestBase {
 
-  @Test (enabled = false)
-  public void testContactDeletion() throws Exception {
+  @BeforeMethod
+  public void preconditions(){
     app.goTo().gotoContactHomePage();
-    if(!app.contactHelper().isThereAContact()){
-      app.contactHelper().createContact(new ContactData("Daniil", "test", "Vladimirov", "sini", "newTitle", "newCompani", "newAddress", "domtelefon", "mobtelefon", "worktelefon", "fax", "email1", "email2", "email3", "sinicbob.github.io", "7", "September", "1990", "14", "June", "1990","test1", "newAddressx2", "homeAddress", "lol"),true);
+    if(!app.contact().isThereAContact()){
+      app.contact().create(new ContactData().setFirstName("Daniil").setMiddleName("test").setLastName("Vladimirov").setNickname("sini").setTitle("test").setBday("13").setBmonth("March").setAday("14").setAmonth("March").setGroupname("test1"),true);
     }
-    List<ContactData> before = app.contactHelper().getContactList();
-    app.contactHelper().selectContact(before.size() - 1);
-    app.contactHelper().deleteSelectedContact();
-    Alert alert = app.wd.switchTo().alert();
-    alert.accept();
-    app.goTo().gotoContactHomePage();
-    List<ContactData> after = app.contactHelper().getContactList();
-    Assert.assertEquals(after.size(),before.size() - 1);
-
-    before.remove(before.size() - 1);
-    Assert.assertEquals(before,after);
   }
+
+
+  @Test
+  public void testContactDeletion() throws Exception {
+    Contacts before = app.contact().all();
+    ContactData deteledContact = before.iterator().next();
+    app.contact().delete(deteledContact);
+    app.goTo().gotoContactHomePage();
+    Contacts after = app.contact().all();
+    assertThat(after.size(),equalTo(before.size() - 1));
+    assertThat(after, equalTo(before.without(deteledContact)));
+  }
+
 }
