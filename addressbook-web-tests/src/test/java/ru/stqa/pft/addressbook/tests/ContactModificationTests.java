@@ -14,7 +14,7 @@ public class ContactModificationTests extends TestBase{
   @BeforeMethod
   public void preconditions(){
    if(app.contact().all().size() == 0){
-    app.contact().create(new ContactData().setFirstName("Daniil").setMiddleName("test").setLastName("Vladimirov").setNickname("sini").setTitle("test").setBday("13").setBmonth("March").setAday("14").setAmonth("March").setGroupname("test1"),true);
+    app.contact().create(new ContactData().setFirstName("Daniil").setMiddleName("test").setLastName("Vladimirov").setNickname("sini").setTitle("test").setHomeNumber("111").setMobileNumber("222").setWorkNumber("333").setBday("13").setBmonth("March").setAday("14").setAmonth("March").setGroupname("test1"),true);
    }
   }
 

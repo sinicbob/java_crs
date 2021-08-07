@@ -29,7 +29,36 @@ public class ContactData {
   private  String address2;
   private  String homeNumber2;
   private  String notes;
+  private  String allPhones;
+  private  String allEmails;
+  private  String allAddress;
 
+  public String getAllPhones() {
+    return allPhones;
+  }
+
+  public ContactData setAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this;
+  }
+
+  public ContactData setAllEmails(String allEmails) {
+    this.allEmails = allEmails;
+    return this;
+  }
+
+  public String getAllEmails() {
+    return allEmails;
+  }
+
+  public ContactData setAllAddress(String allAddress) {
+    this.allAddress = allAddress;
+    return this;
+  }
+
+  public String getAllAddress() {
+    return allAddress;
+  }
 
   public int getId() {
     return id;

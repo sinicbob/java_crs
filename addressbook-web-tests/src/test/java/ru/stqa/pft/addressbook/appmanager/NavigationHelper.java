@@ -22,7 +22,7 @@ public class NavigationHelper extends HelperBase{
     click(By.linkText("add new"));
   }
 
-  public void gotoContactHomePage() {
+  public void contactHomePage() {
     if(isElementPresent(By.id("maintable"))){
       return;
     }
