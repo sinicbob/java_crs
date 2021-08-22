@@ -17,22 +17,23 @@ public class ContactData {
   @Column(name = "firstname")
   private  String firstName;
   @Expose
-  @Transient
+  @Column(name = "middlename")
   private  String middleName;
   @Expose
   @Column(name = "lastname")
   private  String lastName;
   @Expose
-  @Transient
+  @Column(name = "nickname")
   private  String nickname;
   @Expose
-  @Transient
+  @Column(name = "title")
   private  String title;
   @Expose
-  @Transient
+  @Column(name = "company")
   private  String company;
   @Expose
-  @Transient
+  @Column(name = "address")
+  @Type(type = "text")
   private  String address;
   @Expose
   @Column(name = "home")
@@ -377,7 +378,16 @@ public class ContactData {
     return "ContactData{" +
             "id=" + id +
             ", firstName='" + firstName + '\'' +
+            ", middleName='" + middleName + '\'' +
             ", lastName='" + lastName + '\'' +
+            ", nickname='" + nickname + '\'' +
+            ", title='" + title + '\'' +
+            ", company='" + company + '\'' +
+            ", address='" + address + '\'' +
+            ", homeNumber='" + homeNumber + '\'' +
+            ", mobileNumber='" + mobileNumber + '\'' +
+            ", workNumber='" + workNumber + '\'' +
+            ", fax='" + fax + '\'' +
             '}';
   }
 
@@ -386,11 +396,11 @@ public class ContactData {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ContactData that = (ContactData) o;
-    return id == that.id && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
+    return id == that.id && Objects.equals(firstName, that.firstName) && Objects.equals(middleName, that.middleName) && Objects.equals(lastName, that.lastName) && Objects.equals(nickname, that.nickname) && Objects.equals(title, that.title) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(homeNumber, that.homeNumber) && Objects.equals(mobileNumber, that.mobileNumber) && Objects.equals(workNumber, that.workNumber);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, firstName, lastName);
+    return Objects.hash(id, firstName, middleName, lastName, nickname, title, company, address, homeNumber, mobileNumber, workNumber);
   }
 }

@@ -52,6 +52,7 @@ public class ContactDataGenerator {
               .setMiddleName(String.format("test %s",i))
               .setLastName(String.format("Vladimirov %s",i))
               .setNickname(String.format("sini %s",i))
+                      .setCompany(String.format("testCompany%s",i)).setAddress(String.format("testAddress %s",i))
               .setTitle(String.format("test %s",i)).setHomeNumber("111").setMobileNumber("222").setWorkNumber("333").setBday("13")
               .setBmonth("March").setAday("14").setAmonth("March").setGroupname("test1"));
     }
