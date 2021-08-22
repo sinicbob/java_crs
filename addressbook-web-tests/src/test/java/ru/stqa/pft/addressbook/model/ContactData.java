@@ -1,74 +1,113 @@
 package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.Objects;
 
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
+  @Id
+  @Column(name = "id")
   private  int id = Integer.MAX_VALUE;
   @Expose
+  @Column(name = "firstname")
   private  String firstName;
   @Expose
+  @Transient
   private  String middleName;
   @Expose
+  @Column(name = "lastname")
   private  String lastName;
   @Expose
+  @Transient
   private  String nickname;
   @Expose
+  @Transient
   private  String title;
   @Expose
+  @Transient
   private  String company;
   @Expose
+  @Transient
   private  String address;
   @Expose
+  @Column(name = "home")
+  @Type(type = "text")
   private  String homeNumber;
   @Expose
+  @Column(name = "mobile")
+  @Type(type = "text")
   private  String mobileNumber;
   @Expose
+  @Column(name = "work")
+  @Type(type = "text")
   private  String workNumber;
   @Expose
+  @Transient
   private  String fax;
   @Expose
+  @Transient
   private  String email;
   @Expose
+  @Transient
   private  String email2;
   @Expose
+  @Transient
   private  String email3;
   @Expose
+  @Transient
   private  String homepage;
   @Expose
+  @Transient
   private  String bday;
   @Expose
+  @Transient
   private  String bmonth;
   @Expose
+  @Transient
   private  String byear;
   @Expose
+  @Transient
   private  String aday;
   @Expose
+  @Transient
   private  String amonth;
   @Expose
+  @Transient
   private  String ayear;
   @Expose
+  @Transient
   private  String groupname;
   @Expose
+  @Transient
   private  String address2;
   @Expose
+  @Transient
   private  String homeNumber2;
   @Expose
+  @Transient
   private  String notes;
+  @Transient
   private  String allPhones;
+  @Transient
   private  String allEmails;
+  @Transient
   private  String allAddress;
   @Expose
-  private  File photo;
+  @Column(name = "photo")
+  @Type(type = "text")
+  private  String photo;
 
   public File getPhoto() {
-    return photo;
+    return new File(photo);
   }
 
   public ContactData setPhoto(File photo) {
-    this.photo = photo;
+    this.photo = photo.getPath();
     return this;
   }
 
