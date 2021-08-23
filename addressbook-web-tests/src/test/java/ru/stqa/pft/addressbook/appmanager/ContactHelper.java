@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
 
@@ -48,8 +49,11 @@ public class ContactHelper extends HelperBase{
     new Select(wd.findElement(By.name("aday"))).selectByVisibleText(contactData.getAday());
     new Select(wd.findElement(By.name("amonth"))).selectByVisibleText(contactData.getAmonth());
     type(By.name("ayear"),contactData.getAyear());
-    if(creation){
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroupname());
+   if(creation){
+     if(contactData.getGroups().size() > 0){
+       Assert.assertTrue(contactData.getGroups().size() == 1);
+       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+     }
     }else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -80,6 +84,7 @@ public class ContactHelper extends HelperBase{
     click(By.xpath("//*[@value=\"Update\"][2]"));
   }
 
+
   public void create(ContactData contact, boolean create) {
     gotoContactPage();
     fillContactForm(contact,create);
@@ -100,6 +105,45 @@ public class ContactHelper extends HelperBase{
     deleteSelectedContact();
     Alert alert = wd.switchTo().alert();
     alert.accept();
+  }
+  public void addedGroup(ContactData contact,Groups groups){
+    selectContactById(contact.getId());
+    selectedGroup(groups);
+    submitAddGroup();
+    gotoGroupPage(groups);
+  }
+
+  public void selectedGroup(Groups groups) {
+    new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(groups.iterator().next().getName());
+  }
+
+  // ужас !!!
+  public void deleteGroup(ContactData contact,Groups groups){
+    gotoGroupAll();
+    System.out.println(contact.getGroups());
+    System.out.println(contact.inGroup(groups.iterator().next()));
+    selectedGroupPage(contact);
+    selectContactById(contact.getId());
+    deleteSelectedContactGroup();
+    gotoGroupPage(contact.getGroups());
+  }
+
+  public void submitAddGroup(){
+    click(By.name("add"));
+  }
+  public void deleteSelectedContactGroup() {
+    click(By.name("remove"));
+  }
+
+  public void gotoGroupPage(Groups groups){
+    click(By.linkText("group page \"" + groups.iterator().next().getName() + "\""));
+  }
+  public void gotoGroupAll(){
+    new Select(wd.findElement(By.name("group"))).selectByVisibleText("[all]");
+  }
+
+  public void selectedGroupPage(ContactData contact) {
+    new Select(wd.findElement(By.name("group"))).selectByVisibleText(contact.getGroups().iterator().next().getName());
   }
 
   public boolean isThereAContact() {
