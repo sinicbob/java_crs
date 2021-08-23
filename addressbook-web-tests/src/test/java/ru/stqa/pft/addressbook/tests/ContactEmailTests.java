@@ -16,7 +16,7 @@ public class ContactEmailTests extends TestBase{
   public void preconditions() {
     app.goTo().contactHomePage();
     if(app.contact().all().size() == 0){
-      app.contact().create(new ContactData().setFirstName("Daniil").setMiddleName("test").setLastName("Vladimirov").setNickname("sini").setTitle("test").setHomeNumber("111").setMobileNumber("222").setWorkNumber("333").setEmail("test@mail.ru").setEmail2("test-main@gmail.ru").setEmail3("(test).mail@ya.ru").setBday("13").setBmonth("March").setAday("14").setAmonth("March").setGroupname("test1"),true);
+      app.contact().create(new ContactData().setFirstName("Daniil").setMiddleName("test").setLastName("Vladimirov").setNickname("sini").setTitle("test").setHomeNumber("111").setMobileNumber("222").setWorkNumber("333").setEmail("test@mail.ru").setEmail2("test-main@gmail.ru").setEmail3("(test).mail@ya.ru").setBday("13").setBmonth("March").setAday("14").setAmonth("March"),true);
     }
   }
 
