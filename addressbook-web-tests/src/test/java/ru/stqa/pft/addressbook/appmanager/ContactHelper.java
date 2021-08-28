@@ -111,8 +111,8 @@ public class ContactHelper extends HelperBase{
     selectContactById(contact.getId());
     selectedGroup(groups);
     submitAddGroup();
-    contact.inGroup(groups.iterator().next());
     gotoGroupPage(groups);
+    contact.inGroup(groups.iterator().next());
   }
 
   public void selectedGroup(Groups groups) {
@@ -126,7 +126,9 @@ public class ContactHelper extends HelperBase{
     selectContactById(contact.getId());
     deleteSelectedContactGroup();
     gotoGroupPage(contact.getGroups());
+    contact.outGroup(groups.iterator().next());
   }
+
 
   public void submitAddGroup(){
     click(By.name("add"));

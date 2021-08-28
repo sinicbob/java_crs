@@ -22,13 +22,13 @@ public class ContactAddedToGroup extends TestBase{
     if(app.db().groups().size() == 0){
       app.goTo().groupPage();
       app.group().create(new GroupData().withName("new1").withHeader("new1").withFooter("new1"));
+      app.goTo().contactHomePage();
     }
   }
 
   @Test
   public void testContactAddedToGroup(){
     Groups groups = app.db().groups();
-    System.out.println(groups.iterator().next());
     Contacts before = app.db().contacts();
     ContactData contact = before.iterator().next();
     if (contact.getGroups().size() == 1){
@@ -36,8 +36,7 @@ public class ContactAddedToGroup extends TestBase{
     }
     app.contact().addedGroup(contact,groups);
     Contacts after = app.db().contacts();
-    assertThat(after.size(),equalTo(before.size()));
-    assertThat(after, equalTo(before));
+    assertThat(after.iterator().next().getGroups().size(),equalTo(before.iterator().next().getGroups().size()));
 
   }
 }

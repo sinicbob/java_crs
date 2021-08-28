@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.File;
@@ -18,6 +19,11 @@ public class ContactDeleteGroup extends TestBase{
     if(app.db().contacts().size() == 0){
       app.contact().create(new ContactData().setFirstName("Daniil").setMiddleName("test").setLastName("Vladimirov").setNickname("sini").setPhoto(new File("src/test/resources/foto.png")).setTitle("test").setHomeNumber("111").setMobileNumber("222").setWorkNumber("333").setBday("13").setBmonth("March").setAday("14").setAmonth("March"),true);
     }
+    if(app.db().groups().size() == 0){
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("new1").withHeader("new1").withFooter("new1"));
+      app.goTo().contactHomePage();
+    }
   }
 
   @Test
@@ -30,8 +36,6 @@ public class ContactDeleteGroup extends TestBase{
     }
     app.contact().deleteGroup(contact,groups);
     Contacts after = app.db().contacts();
-    assertThat(after.size(),equalTo(before.size()));
-    assertThat(after, equalTo(before));
-
+    assertThat(after.iterator().next().getGroups().size(),equalTo(before.iterator().next().getGroups().size()));
   }
 }

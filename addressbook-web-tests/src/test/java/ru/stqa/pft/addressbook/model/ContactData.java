@@ -410,6 +410,9 @@ public class ContactData {
   public ContactData inGroup(GroupData group) {
     groups.add(group);
     return this;
-
+  }
+  public ContactData outGroup(GroupData group) {
+    groups.remove(group);
+    return this;
   }
 }
