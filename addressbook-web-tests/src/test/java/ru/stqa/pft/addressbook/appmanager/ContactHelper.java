@@ -107,9 +107,11 @@ public class ContactHelper extends HelperBase{
     alert.accept();
   }
   public void addedGroup(ContactData contact,Groups groups){
+    gotoGroupAll();
     selectContactById(contact.getId());
     selectedGroup(groups);
     submitAddGroup();
+    contact.inGroup(groups.iterator().next());
     gotoGroupPage(groups);
   }
 
@@ -117,11 +119,9 @@ public class ContactHelper extends HelperBase{
     new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(groups.iterator().next().getName());
   }
 
-  // ужас !!!
+
   public void deleteGroup(ContactData contact,Groups groups){
     gotoGroupAll();
-    System.out.println(contact.getGroups());
-    System.out.println(contact.inGroup(groups.iterator().next()));
     selectedGroupPage(contact);
     selectContactById(contact.getId());
     deleteSelectedContactGroup();

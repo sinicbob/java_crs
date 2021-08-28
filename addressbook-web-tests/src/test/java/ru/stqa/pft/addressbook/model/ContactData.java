@@ -390,6 +390,7 @@ public class ContactData {
             ", mobileNumber='" + mobileNumber + '\'' +
             ", workNumber='" + workNumber + '\'' +
             ", fax='" + fax + '\'' +
+            ", groups=" + groups +
             '}';
   }
 
