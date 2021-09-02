@@ -14,6 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactAddedToGroup extends TestBase{
 
+
   @BeforeMethod
   public void preconditions(){
     if(app.db().contacts().size() == 0){
@@ -26,17 +27,34 @@ public class ContactAddedToGroup extends TestBase{
     }
   }
 
-  @Test
-  public void testContactAddedToGroup(){
-    Groups groups = app.db().groups();
-    Contacts before = app.db().contacts();
-    ContactData contact = before.iterator().next();
-    if (contact.getGroups().size() == 1){
-      app.contact().deleteGroup(contact,groups);
-    }
-    app.contact().addedGroup(contact,groups);
-    Contacts after = app.db().contacts();
-    assertThat(after.iterator().next().getGroups().size(),equalTo(before.iterator().next().getGroups().size()));
 
+  @Test
+  public void testContactAddedToGroup() {
+    Contacts contactsDB = app.db().contacts();
+    ContactData contactAddedToGroup = null;
+      for (ContactData contact : contactsDB) {
+        if (contact.getGroups().size() == 0) {
+          contactAddedToGroup = contact;
+          break;
+        }
+      }
+      if (contactAddedToGroup == null) {
+      ContactData newContact = new ContactData().setFirstName("Daniil").setMiddleName("test").setLastName("Vladimirov").setNickname("sini").setPhoto(new File("src/test/resources/foto.png")).setTitle("test").setHomeNumber("111").setMobileNumber("222").setWorkNumber("333").setBday("13").setBmonth("March").setAday("14").setAmonth("March");
+      app.contact().create(newContact, true);
+      contactsDB = app.db().contacts();
+    }
+
+    for (ContactData contact : contactsDB) {
+      if (contact.getGroups().size() == 0) {
+        contactAddedToGroup = contact;
+      }
+    }
+
+    Groups before = contactAddedToGroup.getGroups();
+    Groups groups = app.db().groups();
+    GroupData group = groups.iterator().next();
+    app.contact().addedGroup(contactAddedToGroup,group);
+    Groups after = contactAddedToGroup.getGroups();
+    assertThat(after,equalTo(before.withAdded(group)));
   }
 }

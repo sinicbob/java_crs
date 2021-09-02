@@ -28,14 +28,30 @@ public class ContactDeleteGroup extends TestBase{
 
   @Test
   public void testContactDeleteGroup(){
-    Groups groups = app.db().groups();
-    Contacts before = app.db().contacts();
-    ContactData contact = before.iterator().next();
-    if(contact.getGroups().size() == 0){
-      app.contact().addedGroup(contact,groups);
+    Contacts contactsDB = app.db().contacts();
+    Groups groupsDB = app.db().groups();
+    ContactData contactDeleteGroup = null;
+    for (ContactData contact : contactsDB) {
+      if (contact.getGroups().size() == 1) {
+        contactDeleteGroup = contact;
+        break;
+      }
     }
-    app.contact().deleteGroup(contact,groups);
-    Contacts after = app.db().contacts();
-    assertThat(after.iterator().next().getGroups().size(),equalTo(before.iterator().next().getGroups().size()));
+    if (contactDeleteGroup == null) {
+      app.contact().addedGroup(contactsDB.iterator().next(), groupsDB.iterator().next() );
+    }
+
+    for (ContactData contact : contactsDB) {
+      if (contact.getGroups().size() == 1) {
+        contactDeleteGroup = contact;
+      }
+    }
+
+    Groups before = contactDeleteGroup.getGroups();
+    Groups groups = app.db().groups();
+    GroupData group = groups.iterator().next();
+    app.contact().deleteGroup(contactDeleteGroup,group);
+    Groups after = contactDeleteGroup.getGroups();
+    assertThat(after,equalTo(before.without(group)));
   }
 }
