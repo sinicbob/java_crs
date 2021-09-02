@@ -30,10 +30,13 @@ public class RefreshPasswordHelper extends HelperBase {
   }
 
   public void resetPass(){
-    click(By.cssSelector("input[class=\"btn btn-primary btn-white btn-round\"]"));
+    click(By.cssSelector("input[class=\"btn btn-primary btn-white btn-round\"][value=\"Reset Password\"]"));
   }
 
   public void finish(String confirmationLink, String newPassword) {
     wd.get(confirmationLink);
+    type(By.name("password"),newPassword);
+    type(By.name("password_confirm"),newPassword);
+    click(By.cssSelector("button[class=\"width-100 width-40 pull-right btn btn-success btn-inverse bigger-110\"]"));
   }
 }
