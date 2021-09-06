@@ -51,7 +51,7 @@ public class ContactDeleteGroup extends TestBase{
     Groups groups = app.db().groups();
     GroupData group = groups.iterator().next();
     app.contact().deleteGroup(contactDeleteGroup,group);
-    Groups after = contactDeleteGroup.getGroups();
+    Groups after = app.db().getContactFromDB(contactDeleteGroup.getId()).getGroups();
     assertThat(after,equalTo(before.without(group)));
   }
 }
