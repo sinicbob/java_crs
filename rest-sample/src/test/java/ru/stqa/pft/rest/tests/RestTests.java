@@ -1,23 +1,24 @@
-package ru.stqa.pft.rest;
+package ru.stqa.pft.rest.tests;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.message.BasicNameValuePair;
 import org.testng.annotations.Test;
+import ru.stqa.pft.rest.model.Issue;
 
 import java.io.IOException;
 import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
 
-public class RestTests {
+public class RestTests extends TestBase{
 
   @Test
   public void testCreateIssue() throws IOException {
+    skipIfNotFixed(1); // Open = 1394
     Set<Issue> oldIssues = getIssue();
     Issue newIssue = new Issue().withSubject("Test issue sini").withDescription("New test issue");
     int issueId = createIssue(newIssue);
@@ -35,9 +36,6 @@ public class RestTests {
     return new Gson().fromJson(issues,new TypeToken<Set<Issue>>(){}.getType());
   }
 
-  private Executor getExecutor() {
-    return Executor.newInstance().auth("288f44776e7bec4bf44fdfeb1e646490","");
-  }
 
   private int createIssue(Issue newIssue) throws IOException {
     String json = getExecutor().execute(Request.Post("https://bugify.stqa.ru/api/issues.json")
