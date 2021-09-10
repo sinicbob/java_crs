@@ -1,0 +1,19 @@
+[
+  {
+    "firstName": "test 0",
+    "middleName": "test 0",
+    "lastName": "Vladimirov 0",
+    "nickname": "sini 0",
+    "title": "test 0",
+    "company": "testCompany0",
+    "address": "testAddress 0",
+    "homeNumber": "111",
+    "mobileNumber": "222",
+    "workNumber": "333",
+    "bday": "13",
+    "bmonth": "March",
+    "aday": "14",
+    "amonth": "March",
+    "groupname": "test1"
+  }
+]
